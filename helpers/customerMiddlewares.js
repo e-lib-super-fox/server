@@ -4,7 +4,7 @@ function auth(req, res, next) {
   if (typeof header !== 'undefined') {
     const compare = header.split(" ");
     
-    const token = compare[1];
+    const token = compare[0];
     let decoded = jwt.verify(token, process.env.SECRET_KEY);
     req.user = decoded;
     if (decoded.role === "admin") {
