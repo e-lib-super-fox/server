@@ -13,8 +13,8 @@ router.route('/')
 router.get('/info', booksControllers.getInfo);
 
 router.route('/:bookId')
-  .get() // Get book by Id
-  .put() // Update book by Id
-  .delete() // Delete book by Id
+  .get(booksControllers.getById) // Get book by Id
+  .put(booksControllers.updateBook) // Update book by Id
+  .delete(booksControllers.deleteBook) // Delete book by Id
 
 module.exports = router;
