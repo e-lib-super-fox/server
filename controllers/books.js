@@ -25,10 +25,21 @@ exports.getInfo = (req, res) => {
 
   axios.get(url, {})
     .then(({data}) => {
-      res.status(200).json({ message: 'Book info retrieved successfully', data })
+      if (data.totalItems > 0) {
+        const item = data.items[0];
+        const bookInfo = {
+          title: item.volumeInfo.title,
+          author: item.volumeInfo.authors,
+          description: item.volumeInfo.description
+        }
+
+        res.status(200).json({ message: 'Book info retrieved successfully', bookInfo });
+      } else {
+        res.status(400).json({ message: 'Book not found' });
+      }
     })
     .catch(err => {
-      res.status(400).json({ message: 'Failed to retrieved book info', err })
+      res.status(500).json({ message: 'Failed to retrieved book info', err })
     });
 }
 
