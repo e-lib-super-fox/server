@@ -13,7 +13,7 @@ const bookSchema = new Schema({
     trim: true,
     required: 'Title is required'
   },
-  author: {
+  authors: {
     type: String,
     trim: true,
     required: 'Author is required'
@@ -27,6 +27,10 @@ const bookSchema = new Schema({
   },
   image: {
     type: String
+  },
+  uploader: {
+    type: Schema.Types.ObjectId,
+    ref: 'Customer'
   }
 }, { timestamps: true });
 
