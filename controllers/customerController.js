@@ -1,7 +1,8 @@
 const Customer = require("../models/customerModel");
 const bcrypt = require("bcryptjs");
-var jwt = require("jsonwebtoken");
-// let saltRounds = 10;
+
+var jwt = require('jsonwebtoken');
+
 
 function signUpCustomer(req, res) {
   // console.log(req.body);
@@ -15,7 +16,7 @@ function signUpCustomer(req, res) {
 
   Customer.create(objCustomer)
     .then(customers => {
-      // console.log(customers);
+      
 
       res.status(200).json({ message: "signup success", customers });
     })
@@ -27,9 +28,7 @@ function signUpCustomer(req, res) {
 function loginCustomer(req, res) {
   let nameCustomer = req.body.userName;
   let pass = req.body.password;
-  // let salt = bcrypt.genSaltSync(saltRounds);
-  // let hash = bcrypt.hashSync(pass, salt);
-  //   console.log('=============>',pass);
+
 
   Customer.findOne({ userName: nameCustomer })
     .then(customers => {
