@@ -1,4 +1,5 @@
 const Book = require('./../models/book');
+<<<<<<< HEAD
 const axios = require('axios');
 
 exports.addBook = (req, res) => {
@@ -40,6 +41,18 @@ exports.getBooks = (req, res) => {
     .catch(err => {
       res.status(500).json({ message: 'Failed to retrieve books', err });
     });
+=======
+
+exports.addBook = (req, res) => {
+}
+
+exports.getInfo = (req, res) => {
+
+}
+
+exports.getBooks = (req, res) => {
+
+>>>>>>> f0185eb795f1b0f1a1c70d3f8421b2d7c2a5951f
 }
 
 exports.updateBook = (req, res) => {
