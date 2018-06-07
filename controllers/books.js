@@ -7,7 +7,7 @@ exports.getInfo = (req, res) => {};
 exports.getBooks = (req, res) => {};
 
 //========= put ======
-exports.updateBook = (req, res) => {
+exports.updateBook =  (req, res) => {
   let id = req.params.bookId;
   let obj = {
     description: req.body.description
