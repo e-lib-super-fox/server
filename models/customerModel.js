@@ -2,12 +2,15 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 var bcrypt = require("bcryptjs");
 
-let customerSchema = new Schema({
-  userName: String,
-  email: String,
-  password: String,
-  role: String
-});
+let customerSchema = new Schema(
+  {
+    userName: String,
+    email: String,
+    password: String,
+    role: String
+  },
+  { timestamps: true }
+);
 
 customerSchema.pre("save", function(next) {
   var user = this;
