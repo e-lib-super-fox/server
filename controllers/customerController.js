@@ -1,6 +1,6 @@
 const Customer = require("../models/customerModel");
 const bcrypt = require("bcryptjs");
-var jwt = require('jsonwebtoken');
+var jwt = require("jsonwebtoken");
 // let saltRounds = 10;
 
 function signUpCustomer(req, res) {
@@ -34,14 +34,13 @@ function loginCustomer(req, res) {
   Customer.findOne({ userName: nameCustomer })
     .then(customers => {
       // console.log(customers.password);
-      
+
       let compare = bcrypt.compareSync(pass, customers.password);
       console.log(compare);
-      
+
       if (compare) {
-        
         jwt.sign(
-          { email: customers.email },
+          { email: customers.email, id: customers._id, role: customers.role },
           process.env.SECRET_KEY,
           (err, token) => {
             res.status(200).json({ token });
