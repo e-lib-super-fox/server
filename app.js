@@ -23,7 +23,10 @@ db.once("open", function() {
 const indexRouter = require("./routes/index");
 
 // =========== ditambahin disini ================
-const customersRouter = require("./routes/customer");
+
+const customersRouter = require('./routes/customer');
+const booksRouter = require('./routes/books');
+
 // =========== ditambahin disini ================
 
 const app = express();
@@ -41,7 +44,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // =========== ditambahin disini ================
 
-app.use("/users", customersRouter);
+app.use('/users',customersRouter)
+app.use('/books',booksRouter)
 
 // =========== ditambahin disini ================
 
