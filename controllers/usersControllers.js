@@ -54,12 +54,18 @@ function loginUser(req, res) {
 
       let compare = bcrypt.compareSync(pass, user.password);
 
+      const userInfo = {
+        username: user.username, 
+        email: user.email,
+        role: user.role
+      };
+
       if (compare) {
         jwt.sign(
           { username: user.username, email: user.email, id: user._id, role: user.role },
           process.env.SECRET_KEY,
           (err, token) => {
-            res.status(200).json({ message: 'Logged In Successfully', token });
+            res.status(200).json({ message: 'Logged In Successfully', token, user: userInfo });
           }
         );
       }

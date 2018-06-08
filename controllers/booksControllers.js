@@ -114,9 +114,9 @@ exports.getById = (req, res) => {
   let id = req.params.bookId;
   Book.findById(id)
     .then(book => {
-      res.status(200).json({ message: "get book success" });
+      res.status(200).json({ message: "get book success", book });
     })
     .catch(err => {
-      res.status(400).json({ message: "get book failed" });
+      res.status(400).json({ message: "get book failed", err });
     });
 };
