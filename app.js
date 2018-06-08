@@ -19,8 +19,17 @@ db.once('open', function () {
 });
 
 
+<<<<<<< HEAD
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+=======
+// =========== ditambahin disini ================
+
+const usersRoutes = require('./routes/users');
+const booksRoutes = require('./routes/books');
+
+// =========== ditambahin disini ================
+>>>>>>> 2f4860199e0f3131574a218eadc5599692a94cc4
 
 const app = express();
 
@@ -33,7 +42,18 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+<<<<<<< HEAD
 app.use(express.static(path.join(__dirname, 'public')));
+=======
+app.use(express.static(path.join(__dirname, "public")));
+
+// =========== ditambahin disini ================
+
+app.use('/',usersRoutes)
+app.use('/books',booksRoutes)
+
+// =========== ditambahin disini ================
+>>>>>>> 2f4860199e0f3131574a218eadc5599692a94cc4
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
