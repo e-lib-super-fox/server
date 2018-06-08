@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
-const booksControllers = require('./../controllers/books');
+const booksControllers = require('./../controllers/booksControllers');
 const { multer, sendUploadToGCS  } = require('./../helpers/files');
-var { auth } = require("../helpers/customerMiddlewares");
+var { auth } = require("../helpers/authorize");
 
 router.post('/add',
   auth,
