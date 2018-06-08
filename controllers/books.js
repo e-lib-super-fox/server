@@ -1,6 +1,20 @@
 const Book = require("./../models/book");
 const axios = require("axios");
 
+exports.checkIsbn = (req, res, next) => {
+  Book.checkIsbnDuplication(req.body.isbn)
+    .then(duplication => {
+      if (duplication) {
+        res.status(400).json({ message: 'ISBN is already exists' });
+      } else {
+        next();
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Internal Server Error', err })
+    })
+}
+
 exports.addBook = (req, res) => {
   const [ pdfFile ] = req.uploaded.filter(file => file.fieldname === 'file' );
   const [ imageFile ] = req.uploaded.filter(file => file.fieldname === 'image' );

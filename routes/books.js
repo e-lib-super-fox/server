@@ -6,7 +6,8 @@ var { auth } = require("../helpers/customerMiddlewares");
 
 router.post('/add',
   auth,
-  multer.fields([{name:'file'}, {name: 'image'}]),
+  multer.fields([{ name:'file' }, { name: 'image' }]),
+  booksControllers.checkIsbn,
   sendUploadToGCS,
   booksControllers.addBook) // Add a book
   
