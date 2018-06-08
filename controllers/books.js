@@ -2,13 +2,18 @@ const Book = require("./../models/book");
 const axios = require("axios");
 
 exports.addBook = (req, res) => {
+  const [ pdfFile ] = req.uploaded.filter(file => file.fieldname === 'file' );
+  const [ imageFile ] = req.uploaded.filter(file => file.fieldname === 'image' );
+
   const objBook = {
     isbn: req.body.isbn,
     title: req.body.title,
     authors: req.body.authors,
     description: req.body.description,
-    file: req.file.cloudStoragePublicUrl,
-    filename: req.file.cloudStorageObject
+    file: pdfFile.cloudStoragePublicUrl,
+    filename: pdfFile.cloudStorageObject,
+    image: imageFile ? imageFile.cloudStoragePublicUrl : req.body.imageUrl,
+    uploader: req.user.id
   };
 
   Book.create(objBook)
@@ -16,7 +21,7 @@ exports.addBook = (req, res) => {
       res.status(200).json({ message: "Book added successfully", book });
     })
     .catch(err => {
-      res.status(400).json({ message: "Add book failed" });
+      res.status(400).json({ message: "Add book failed", err});
     });
 };
 
@@ -26,19 +31,23 @@ exports.getInfo = (req, res) => {
     process.env.GOOGLE_API_KEY
   }`;
 
+  console.log('hit');
+
   axios
     .get(url, {})
     .then(({ data }) => {
       let bookInfo = {
         title: '',
         author: [],
-        description: ''
+        description: '',
+        image: 'https://storage.googleapis.com/e-lib/1528390467556placeholder.jpg'
       };
       if (data.totalItems > 0) {
         const item = data.items[0];
         bookInfo.title = item.volumeInfo.title;
         bookInfo.authors = item.volumeInfo.authors;
         bookInfo.description = item.volumeInfo.description;
+        bookInfo.image = item.volumeInfo.imageLinks.thumbnail;
       } 
       res
       .status(200)
