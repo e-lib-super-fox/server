@@ -1,10 +1,24 @@
 const Customer = require("../models/customerModel");
 const bcrypt = require("bcryptjs");
+
+// ============= tambahan npm install --save express-validator =========
+
+const { check, validationResult } = require("express-validator/check");
 var jwt = require("jsonwebtoken");
-// let saltRounds = 10;
+
+// ============= tambahan npm install --save express-validator =========
+
+var jwt = require('jsonwebtoken');
+
+
 
 function signUpCustomer(req, res) {
-  // console.log(req.body);
+  // ============ add validations ============
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  // ============ add validations ============
 
   let objCustomer = {
     userName: req.body.userName,
@@ -15,7 +29,6 @@ function signUpCustomer(req, res) {
 
   Customer.create(objCustomer)
     .then(customers => {
-      // console.log(customers);
 
       res.status(200).json({ message: "signup success", customers });
     })
@@ -25,31 +38,41 @@ function signUpCustomer(req, res) {
 }
 
 function loginCustomer(req, res) {
-  let nameCustomer = req.body.userName;
+
+  let user = req.body.user;
   let pass = req.body.password;
-  // let salt = bcrypt.genSaltSync(saltRounds);
-  // let hash = bcrypt.hashSync(pass, salt);
-  //   console.log('=============>',pass);
 
-  Customer.findOne({ userName: nameCustomer })
-    .then(customers => {
-      // console.log(customers.password);
 
-      let compare = bcrypt.compareSync(pass, customers.password);
-      console.log(compare);
+
+  //======== login with username or email =============
+
+  var isEmail = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(user);
+
+  let field = 'userName';
+  if (isEmail) {
+    field = 'email';
+  }
+  
+//======== login with username or email =============
+
+  Customer.findOne({ [field]: user })
+    .then(customer => {
+      console.log(customer);
+
+      let compare = bcrypt.compareSync(pass, customer.password);
 
       if (compare) {
         jwt.sign(
-          { email: customers.email, id: customers._id, role: customers.role },
+          { userName: customer.userName, email: customer.email, id: customer._id, role: customer.role },
           process.env.SECRET_KEY,
           (err, token) => {
-            res.status(200).json({ token });
+            res.status(200).json({ message: 'Logged In Successfully', token });
           }
         );
       }
     })
     .catch(error => {
-      res.status(400).json({ message: "wrong username/password" });
+      res.status(400).json({ message: "wrong username/password", error });
     });
 }
 
