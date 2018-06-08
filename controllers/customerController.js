@@ -1,11 +1,25 @@
 const Customer = require("../models/customerModel");
 const bcrypt = require("bcryptjs");
 
+// ============= tambahan npm install --save express-validator =========
+
+const { check, validationResult } = require('express-validator/check');
 var jwt = require('jsonwebtoken');
+
+// ============= tambahan npm install --save express-validator =========
+
 
 
 function signUpCustomer(req, res) {
-  // console.log(req.body);
+
+// ============ add validations ============
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  // ============ add validations ============
+
+  
 
   let objCustomer = {
     userName: req.body.userName,
