@@ -8,6 +8,10 @@ var jwt = require("jsonwebtoken");
 
 // ============= tambahan npm install --save express-validator =========
 
+var jwt = require('jsonwebtoken');
+
+
+
 function signUpCustomer(req, res) {
   // ============ add validations ============
   const errors = validationResult(req);
@@ -25,6 +29,7 @@ function signUpCustomer(req, res) {
 
   Customer.create(objCustomer)
     .then(customers => {
+
       res.status(200).json({ message: "signup success", customers });
     })
     .catch(error => {
@@ -36,6 +41,7 @@ function loginCustomer(req, res) {
 
   let user = req.body.user;
   let pass = req.body.password;
+
 
 
   //======== login with username or email =============
