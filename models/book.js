@@ -37,6 +37,17 @@ const bookSchema = new Schema({
   }
 }, { timestamps: true });
 
+bookSchema.statics.checkIsbnDuplication = function(isbn) {
+  return this.findOne({ isbn: isbn })
+    .then(book => {
+      if (book) return true
+      else return false;
+    })
+    .catch(err => {
+      throw err
+    });
+}
+
 const Book = mongoose.model('Book', bookSchema);
 
 module.exports = Book;
